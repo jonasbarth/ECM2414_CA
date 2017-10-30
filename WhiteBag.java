@@ -15,5 +15,9 @@ public class WhiteBag extends Bag{
         super(pebbles, partnerBag);
     }
     
+    public WhiteBag(Pebble[] pebbles) {
+        super(pebbles);
+    }
     
+   
 }

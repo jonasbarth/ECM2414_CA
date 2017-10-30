@@ -5,18 +5,22 @@
  */
 package ECM2414_CA;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public abstract class Bag {
     
-    private Pebble[] pebbles;
+    //private Pebble[] pebbles;
     private Bag partnerBag;
+    private ArrayList pebbles;
+    private Random random;
     
     
     /**
@@ -25,8 +29,20 @@ public abstract class Bag {
      * @param partnerBag 
      */
     public Bag(Pebble[] pebbles, Bag partnerBag) {
-        this.pebbles = pebbles;
+        this.pebbles = new ArrayList();
+        for (Pebble pebble : pebbles) {
+            this.pebbles.add(pebble);
+        }
         setPartnerBag(partnerBag);
+        Random random = new Random();
+        this.random = random;
+    }
+    
+    public Bag(Pebble[] pebbles) {
+        this.pebbles = new ArrayList();
+        for (Pebble pebble : pebbles) {
+            this.pebbles.add(pebble);
+        }
     }
     
     /**
@@ -50,7 +66,13 @@ public abstract class Bag {
      * @return Pebble[]
      */
     public Pebble[] getAllPebbles() {
-        return this.pebbles;
+        Object[] object = this.pebbles.toArray();
+        Pebble[] pebbles = new Pebble[object.length]; //pebble array to hold pebbles from ArrayList
+        
+        for (int i = 0; i < object.length; i++) {
+            pebbles[i] = (Pebble) object[i];
+        }
+        return pebbles;
     }
     
     /**
@@ -58,12 +80,7 @@ public abstract class Bag {
      * @param pebble 
      */
     public void addPebble(Pebble pebble) {
-        for (int i = 0; i < this.pebbles.length; i++) {
-            if (this.pebbles[i] == null) {
-                this.pebbles[i] = pebble;
-                return;
-            }
-        }
+        this.pebbles.add(pebble);
     }
     
     
@@ -73,24 +90,49 @@ public abstract class Bag {
      */
     public void removePebble(Pebble pebble) {
         
-        for (int i = 0; i < this.pebbles.length; i++) {
-            if (this.pebbles[i] == pebble) {
-                this.pebbles[i] = null;
-                return;
-            }
-        }
+        this.pebbles.remove(pebble);
+    }
+    
+    public void removeAllPebbles() {
+        this.pebbles.clear();
     }
     
     /**
-     * Returns
+     * Returns the value of all pebbles in the bag as a string
      * @return String
      */
     public String getPebblesAsString() {
-        return Arrays.toString(this.pebbles);
+        return Arrays.toString(getIntPebbleArray());
     }
     
-    /*
+    /**
+     * Method selects random pebble in the Pebble Array field and then
+     * removes pebble from that array list
+     * 
+     * @return Pebble the random pebble selected
+     */
+    public Pebble getRandomPebble(){
+        Object[] temp = this.pebbles.toArray();
+        int randNum = this.random.nextInt(temp.length) + 1;
+        Pebble temp2 = (Pebble) temp[randNum];
+        this.removePebble(temp2);
+        return temp2;   
+    }
+    
+    
+    /**
+     * Service method to return value of all pebbles in the bag in an int array
+     * @return 
+     */
     private int[] getIntPebbleArray() {
+        Object[] object = this.pebbles.toArray();
+        int[] ints = new int[object.length]; //int array to hold value of each pebble
         
-    } */
+        for (int i = 0; i < object.length; i++) {
+            Pebble pebble = (Pebble) object[i];
+            ints[i] = pebble.getValue();
+        }
+        
+        return ints;
+    }
 }

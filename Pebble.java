@@ -18,8 +18,10 @@ public class Pebble {
         if (value > 0) {
             this.value = value;
         }
+        else {
+            throw new IllegalPebbleValueException("Pebble must have a positive value");
+        }
         
-        throw new IllegalPebbleValueException("Pebble must have a positive value");
     }
     
     /*

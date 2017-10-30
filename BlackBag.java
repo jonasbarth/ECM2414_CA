@@ -20,11 +20,32 @@ public class BlackBag extends Bag{
         this.isEmpty = false;
     }
     
+    public BlackBag(Pebble[] pebbles) {
+        super(pebbles);
+        this.isEmpty = false;
+    }
+    
     public void addAllPebbles(Pebble[] pebbles) {
         for (Pebble p : pebbles) {
             super.addPebble(p);
         }
     }
+    
+    public boolean isEmpty() {
+        if (this.getAllPebbles().length == 0){
+            this.isEmpty = true;
+            return true;
+        }
+        this.isEmpty = false;
+        return false;
+    }
+    
+    public void addPebble(Pebble pebble) {
+        super.addPebble(pebble);
+        if (this.isEmpty())
+            //fire the event
+    }
+
     
     
 }
