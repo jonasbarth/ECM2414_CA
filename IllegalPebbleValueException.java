@@ -9,11 +9,9 @@ package ECM2414_CA;
  *
  * @author Jonas
  */
-public class WhiteBag extends Bag{
+public class IllegalPebbleValueException extends Exception {
     
-    public WhiteBag(Pebble[] pebbles, BlackBag partnerBag) {
-        super(pebbles, partnerBag);
+    public IllegalPebbleValueException (String message) {
+        super(message);
     }
-    
-    
 }

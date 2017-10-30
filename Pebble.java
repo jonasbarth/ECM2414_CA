@@ -5,12 +5,30 @@
  */
 package ECM2414_CA;
 
-import ca.*;
+
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public class Pebble {
+    private final int value;
     
+    public Pebble(int value) throws IllegalPebbleValueException {
+        if (value > 0) {
+            this.value = value;
+        }
+        
+        throw new IllegalPebbleValueException("Pebble must have a positive value");
+    }
+    
+    /*
+    Method to return value of pebble
+    
+    @return int value of pebble
+    */
+    public int getValue() {
+        return this.value;
+        
+    }
 }

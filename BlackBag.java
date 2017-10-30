@@ -5,12 +5,26 @@
  */
 package ECM2414_CA;
 
-import ca.*;
+
 
 /**
  *
  * @author Jonas
  */
 public class BlackBag extends Bag{
+    
+    private boolean isEmpty;
+    
+    public BlackBag(Pebble[] pebbles, WhiteBag partnerBag) {
+        super(pebbles, partnerBag);
+        this.isEmpty = false;
+    }
+    
+    public void addAllPebbles(Pebble[] pebbles) {
+        for (Pebble p : pebbles) {
+            super.addPebble(p);
+        }
+    }
+    
     
 }
