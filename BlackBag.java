@@ -40,12 +40,5 @@ public class BlackBag extends Bag{
         return false;
     }
     
-    public void addPebble(Pebble pebble) {
-        super.addPebble(pebble);
-        if (this.isEmpty())
-            //fire the event
+    
     }
-
-    
-    
-}

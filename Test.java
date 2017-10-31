@@ -26,8 +26,10 @@ public class Test {
             
             BlackBag x = new BlackBag(pebble);
             x.addPebble(p);
+            
             System.out.println(x.getPebblesAsString());
             x.removePebble(p);
+            
             System.out.println(x.getPebblesAsString());
         }
         catch (IllegalPebbleValueException e) {

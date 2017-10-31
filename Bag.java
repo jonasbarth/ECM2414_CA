@@ -21,6 +21,7 @@ public abstract class Bag {
     private Bag partnerBag;
     private ArrayList pebbles;
     private Random random;
+    private String name;
     
     
     /**
@@ -28,7 +29,7 @@ public abstract class Bag {
      * @param pebbles
      * @param partnerBag 
      */
-    public Bag(Pebble[] pebbles, Bag partnerBag) {
+    public Bag(Pebble[] pebbles, Bag partnerBag, String name) {
         this.pebbles = new ArrayList();
         for (Pebble pebble : pebbles) {
             this.pebbles.add(pebble);
@@ -36,13 +37,21 @@ public abstract class Bag {
         setPartnerBag(partnerBag);
         Random random = new Random();
         this.random = random;
+        
+        this.name = name;
     }
     
-    public Bag(Pebble[] pebbles) {
+    public Bag(Pebble[] pebbles, String name) {
         this.pebbles = new ArrayList();
         for (Pebble pebble : pebbles) {
             this.pebbles.add(pebble);
         }
+        
+        this.name = name;
+    }
+    
+    public String getName() {
+        return this.name;
     }
     
     /**
@@ -83,6 +92,9 @@ public abstract class Bag {
         this.pebbles.add(pebble);
     }
     
+    public void addPebble(Pebble[] pebbles){
+        this.pebbles.addAll(Arrays.asList(pebbles));
+    }
     
     /**
      * Method to remove a pebble from bag
