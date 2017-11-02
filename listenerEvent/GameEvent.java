@@ -5,14 +5,17 @@
  */
 package ECM2414_CA.listenerEvent;
 
-
-import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
-public interface BagListener extends EventListener {
+public class GameEvent extends EventObject{
     
-    public void onBagEmptyEvent(BagEvent e);
+    public GameEvent(Object source) {
+        super(source);
+    }
+    
+    
 }

@@ -16,5 +16,11 @@ public interface PlayerListener extends EventListener {
     
     public void onPlayerAnnouncedWinEvent(PlayerEvent e);
     
+    public void onPlayerFoundEmptyBagEvent(PlayerEvent e);
+    
+    public void onPlayerHasDrawnEvent(PlayerEvent e);
+    
+    public void onPlayerNeedsNewBagEvent(PlayerEvent e);
+    
     
 }

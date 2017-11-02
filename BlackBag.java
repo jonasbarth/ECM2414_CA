@@ -13,16 +13,16 @@ package ECM2414_CA;
  */
 public class BlackBag extends Bag{
     
-    private boolean isEmpty;
+    //private boolean isEmpty;
     
-    public BlackBag(Pebble[] pebbles, WhiteBag partnerBag) {
-        super(pebbles, partnerBag);
-        this.isEmpty = false;
+    public BlackBag(Pebble[] pebbles, WhiteBag partnerBag, String name) {
+        super(pebbles, partnerBag, name);
+        //this.isEmpty = false;
     }
     
-    public BlackBag(Pebble[] pebbles) {
-        super(pebbles);
-        this.isEmpty = false;
+    public BlackBag(Pebble[] pebbles, String name) {
+        super(pebbles, name);
+        //this.isEmpty = false;
     }
     
     public void addAllPebbles(Pebble[] pebbles) {
@@ -33,10 +33,10 @@ public class BlackBag extends Bag{
     
     public boolean isEmpty() {
         if (this.getAllPebbles().length == 0){
-            this.isEmpty = true;
+            //this.isEmpty = true;
             return true;
         }
-        this.isEmpty = false;
+        //this.isEmpty = false;
         return false;
     }
     
