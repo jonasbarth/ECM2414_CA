@@ -48,9 +48,6 @@ public class PebbleGame implements PlayerListener {
         this.turn++;
     }
     
-    //public void onPlayerAnnouncedWin()
-    
-    //public void onPlayerFoundBagEmpty()
     
     
     public void startGame() {
@@ -160,7 +157,7 @@ public class PebbleGame implements PlayerListener {
     }
     
     private boolean isIntegers(String[] listOfNumbers) throws NumberFormatException {
-        int[] weights = new int[listOfNumbers.length];
+        
         for(int i = 0; i < listOfNumbers.length;i++){
             try {
                 Integer.parseInt(listOfNumbers[i]);
