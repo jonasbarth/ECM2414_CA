@@ -20,7 +20,7 @@ public interface PlayerListener extends EventListener {
     
     public void onPlayerHasDrawnEvent(PlayerEvent e);
     
-    public void onPlayerNeedsNewBagEvent(PlayerEvent e);
+    //public void onPlayerNeedsNewBagEvent(PlayerEvent e);
     
     
 }

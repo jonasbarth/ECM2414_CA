@@ -15,7 +15,7 @@ import java.util.EventListener;
  */
 public interface GameListener extends EventListener {
     
-    public void onOtherPlayerAnnouncedWinEvent(GameEvent e);
+    //public void onOtherPlayerAnnouncedWinEvent(GameEvent e);
     
     public void onTurnChangeEvent(GameEvent e);
     

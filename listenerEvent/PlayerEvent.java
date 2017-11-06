@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package ECM2414_CA.listenerEvent;
-
+import ECM2414_CA.Bag;
 import java.util.EventObject;
 
 /**
@@ -13,8 +13,16 @@ import java.util.EventObject;
  */
 public class PlayerEvent extends EventObject {
     
-    public PlayerEvent(Object source) {
+    private Bag bag;
+    
+    public PlayerEvent(Object source, Bag bag) {
         super(source);
+        this.bag = bag;
+    }
+    
+    public Bag getPartnerBag() {
+        return this.bag.getPartnerBag();
+        
     }
     
     

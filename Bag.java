@@ -88,11 +88,11 @@ public abstract class Bag {
      * Method to add a certain pebble to bag
      * @param pebble 
      */
-    public void addPebble(Pebble pebble) {
+    public synchronized void addPebble(Pebble pebble) {
         this.pebbles.add(pebble);
     }
     
-    public void addPebble(Pebble[] pebbles){
+    public synchronized void addPebble(Pebble[] pebbles){
         this.pebbles.addAll(Arrays.asList(pebbles));
     }
     
@@ -100,12 +100,12 @@ public abstract class Bag {
      * Method to remove a pebble from bag
      * @param pebble 
      */
-    public void removePebble(Pebble pebble) {
+    public synchronized void removePebble(Pebble pebble) {
         
         this.pebbles.remove(pebble);
     }
     
-    public void removeAllPebbles() {
+    public synchronized void removeAllPebbles() {
         this.pebbles.clear();
     }
     
@@ -123,7 +123,7 @@ public abstract class Bag {
      * 
      * @return Pebble the random pebble selected
      */
-    public Pebble getRandomPebble(){
+    public synchronized Pebble getRandomPebble(){
         Object[] temp = this.pebbles.toArray();
         int randNum = this.random.nextInt(temp.length) + 1;
         Pebble temp2 = (Pebble) temp[randNum];

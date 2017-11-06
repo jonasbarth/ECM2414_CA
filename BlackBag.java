@@ -25,7 +25,7 @@ public class BlackBag extends Bag{
         //this.isEmpty = false;
     }
     
-    public void addAllPebbles(Pebble[] pebbles) {
+    public synchronized void addAllPebbles(Pebble[] pebbles) {
         for (Pebble p : pebbles) {
             super.addPebble(p);
         }

@@ -10,8 +10,7 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -62,8 +61,8 @@ public class ReadFile {
         
         try {
             System.out.println(rf.openFile());
-        } catch (IOException ex) {
-            Logger.getLogger(ReadFile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            //Logger.getLogger(ReadFile.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
