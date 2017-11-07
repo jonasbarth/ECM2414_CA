@@ -150,10 +150,10 @@ public class PebbleGame implements PlayerListener, Runnable {
         private Random random;
         private String name;
         private PlayerListener playerListener;
-        private boolean continuePlaying = false;
+        private boolean continuePlaying, newTurn = false;
         private int totalWeight;
         private WriteToFile file;
-        private boolean newTurn = false;
+        
 
 
 

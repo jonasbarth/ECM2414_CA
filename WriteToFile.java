@@ -1,4 +1,5 @@
 //import java.io.InputStreamReader;
+package ECM2414_CA;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileWriter;

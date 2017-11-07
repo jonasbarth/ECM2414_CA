@@ -21,7 +21,7 @@ public class VerifyInput {
      * @param fileName
      * @return 
      */
-    public static boolean verifyFileMeta(String fileName) {
+    public static boolean verifyFileMeta(String fileName) throws NoFileExtentionException, InvalidFileExtentionException {
         if (verifyFileHasExtention(fileName)) {
             if (verifyFileExtention(fileName))  {
                 return true;
@@ -31,15 +31,16 @@ public class VerifyInput {
         return false;
     }
     
-    private static boolean verifyFileHasExtention(String fileName) {
+    private static boolean verifyFileHasExtention(String fileName) throws NoFileExtentionException {
         int i = fileName.lastIndexOf(".");
         if (i > 0) {
             return true;
             }
-        return false;
+        //return false;
+        throw new NoFileExtentionException("Your file has no file extention");
     }
     
-    private static boolean verifyFileExtention(String fileName) {
+    private static boolean verifyFileExtention(String fileName) throws InvalidFileExtentionException {
         int i = fileName.lastIndexOf(".");
         String fileExtension = fileName.substring(i + 1);
         String txt = "txt";
@@ -47,7 +48,8 @@ public class VerifyInput {
         if (txt.equals(fileExtension)) {
             return true;
             }
-            return false;
+            //return false;
+        throw new InvalidFileExtentionException("File must of txt format");
      }
     
     
@@ -73,14 +75,15 @@ public class VerifyInput {
         
     }
     
-    public static boolean verifyFileContent(String filepath) throws IOException {
+    public static boolean verifyFileContent(String filepath) throws IOException, IllegalFileContentException {
         ReadFile rf = new ReadFile(filepath);
         String line = rf.openFile();
         
         if (lineIsLegal(line)) {
             return true;
         }
-        return false;
+        //return false;
+        throw new IllegalFileContentException("The file content is illegal, make sure the file consists of a comma separated list of integers");
     }
     
     private static boolean lineIsLegal(String line){
