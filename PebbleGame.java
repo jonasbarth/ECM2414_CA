@@ -317,6 +317,11 @@ public class PebbleGame implements PlayerListener, Runnable {
 
             }   else {//tell the pebblegame the bag is empty
                     this.fireFoundEmptyBagEvent();
+                    Pebble rand = bag.getRandomPebble(); //returns null
+                    this.pebbles.add(rand);
+
+                    this.drawnMessage(bag, rand.getValue());
+                    
                 }    
         }
 
