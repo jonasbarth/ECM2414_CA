@@ -5,6 +5,7 @@
  */
 package ECM2414_CA.listenerEvent;
 import ECM2414_CA.Bag;
+import ECM2414_CA.PebbleGame.Player;
 import java.util.EventObject;
 
 /**
@@ -12,17 +13,21 @@ import java.util.EventObject;
  * @author Jonas
  */
 public class PlayerEvent extends EventObject {
+ 
     
-    private Bag bag;
-    
-    public PlayerEvent(Object source, Bag bag) {
+    public PlayerEvent(Object source) {
         super(source);
-        this.bag = bag;
     }
     
     public Bag getPartnerBag() {
-        return this.bag.getPartnerBag();
+        Player player = (Player) this.source;
+        return player.getCurrentBag().getPartnerBag();
         
+    }
+    
+    public Bag getCurrentBag() {
+        Player player = (Player) this.source;
+        return player.getCurrentBag();
     }
     
     

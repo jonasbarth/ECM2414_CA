@@ -18,6 +18,11 @@ public class WhiteBag extends Bag{
     public WhiteBag(Pebble[] pebbles, String name) {
         super(pebbles, name);
     }
+    /*
+    public WhiteBag(String name) {
+        Pebble[] pebbles = new Pebble[0];
+        super(pebbles, name);
+    }*/
     
    
 }
