@@ -59,11 +59,13 @@ public class PreGameSetup {
                     next = scanner.nextLine();
                     //System.out.println(next);
                     try {
-                        if (validFile(next) || next.equals("E")) {
+                        if (next.equals("E") || validFile(next)) {
                             
                             break;
                         }
+                        
                     } catch (Exception e) {
+                        
                         System.out.println(e);
                     }
                 }
@@ -84,8 +86,9 @@ public class PreGameSetup {
         else {
             System.out.println("Game now starting");
             PebbleGame pg = new PebbleGame(this.playerEntry, this.bagValues);
-            Thread thread = new Thread(pg);
-            thread.start();
+            //Thread thread = new Thread(pg);
+            //thread.start();
+            pg.startGame();
         }
         
     }
@@ -101,6 +104,7 @@ public class PreGameSetup {
                 return false;
             }
             this.playerEntry = players;
+            this.vf.setPlayerNumber(players);
             return true;
         }
         catch (NumberFormatException e) {

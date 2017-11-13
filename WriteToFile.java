@@ -42,18 +42,20 @@ public class WriteToFile
         FileWriter write = new FileWriter(this.filepath, true);
         BufferedWriter bufferedWriter = new BufferedWriter(write);
                 
-        bufferedWriter.write(textLine );
+        bufferedWriter.write(textLine);
+        bufferedWriter.newLine();
         bufferedWriter.close();
     }
     
     public static void main(String[] args) {
-        String filepath = "C:/Users/Jonas/Desktop/Uni/Year 2/Computer Science/ECM2414 Software Development/CA/test.txt";
+        String filepath = "C:/Users/Jonas/Desktop/Uni/Year 2/Computer Science/ECM2414 Software Development/CA/test2.txt";
         WriteToFile w;
         String line = "Hello there!";
         String line2 = "hi";
         try {
             w = new WriteToFile(filepath);
             w.writeLineIntoFile(line);
+            w.writeLineIntoFile(line2);
         } catch (IOException e) {
             
         }

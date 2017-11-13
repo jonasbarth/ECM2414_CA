@@ -64,7 +64,8 @@ public class PebbleGame implements PlayerListener, Runnable {
         partnerBags();
         this.gameListeners = new ArrayList();
         for (int i = 0; i < numberOfPlayers; i++) {
-            this.players[i] = new Player("Player " + i);
+            int number = i + 1;
+            this.players[i] = new Player("Player " + number);
             this.players[i].registerPlayerListener(this);
             registerGameListener(this.players[i]);
         } 
@@ -112,14 +113,17 @@ public class PebbleGame implements PlayerListener, Runnable {
     }
     
     private Pebble[][] intToPebbleArray(int[][] pebbles) {
-        Pebble[][] pebbleArray = new Pebble[3][this.players.length * 11];
+        Pebble[][] pebbleArray = new Pebble[3][this.players.length * 15];
        
         for (int i = 0; i < pebbles.length; i++) {
             
             for (int j = 0; j < pebbles[i].length; j++) {
                 try {
+                    int length = pebbles[i].length;
+                    
                     Pebble pebble = new Pebble(pebbles[i][j]);
                     //System.out.println(pebble.getValue());
+                    
                     pebbleArray[i][j] = pebble;
                 } catch (IllegalPebbleValueException e) {
                     e.printStackTrace();
@@ -151,6 +155,21 @@ public class PebbleGame implements PlayerListener, Runnable {
         
     }
     
+    public void startGame() {
+        for (Player player : this.players) {
+            Thread thread = new Thread(player);
+            thread.start();
+            
+        }
+        while(!this.gameOver) {
+            
+            if (allPlayersHaveDrawn()) {
+                fireNewTurnEvent();
+            }
+            
+        }
+    }
+    
     private boolean allPlayersHaveDrawn() {
         Collection<Player> toCheck;
         toCheck = this.playerDraw.values();
@@ -169,13 +188,13 @@ public class PebbleGame implements PlayerListener, Runnable {
         }
     }
     
-    public void registerGameListeners(GameListener[] listeners) {
+    public synchronized void registerGameListeners(GameListener[] listeners) {
         for (GameListener listener : listeners) {
             this.gameListeners.add(listener);
         }
     }
     
-    private void registerGameListener(GameListener listener) {
+    private synchronized void registerGameListener(GameListener listener) {
         this.gameListeners.add(listener);
     }
     
@@ -189,6 +208,7 @@ public class PebbleGame implements PlayerListener, Runnable {
     @Override
     public synchronized void onPlayerAnnouncedWinEvent(PlayerEvent e) {
         this.gameOver = true;
+        System.out.println(e.getSource());
     }
 
     @Override
@@ -205,7 +225,7 @@ public class PebbleGame implements PlayerListener, Runnable {
 
     @Override
     public synchronized void onPlayerHasDrawnEvent(PlayerEvent e) {
-        System.out.println("A player has drawn");
+        //System.out.println("A player has drawn");
         Player player = (Player) e.getSource();
         this.playerDraw.put(player, true);
     }
@@ -284,21 +304,35 @@ public class PebbleGame implements PlayerListener, Runnable {
 
                 } 
             }
+            System.out.println(this.name + " has stopped playing");
         }
         
-        public void registerPlayerListener(PlayerListener listener) {
+        public String getName() {
+            return this.name;
+        }
+        
+        public synchronized void registerPlayerListener(PlayerListener listener) {
             this.playerListener = listener;
         }
         
-        public void deregisterPlayerListener() {
+        public synchronized void deregisterPlayerListener() {
             this.playerListener = null;
         }
 
         public void setNewBag() {
             int high = PebbleGame.this.blackBags.length;
             int rand = this.random.nextInt(high);
-            System.out.println("Seleting from this index" + rand);
-            this.currentBag = PebbleGame.this.blackBags[rand];
+            BlackBag bag = PebbleGame.this.blackBags[rand];
+            
+            if (bag.isEmpty()) {
+                fireFoundEmptyBagEvent();
+                setNewBag();
+            }
+            else {
+                this.currentBag = PebbleGame.this.blackBags[rand];
+            }
+           
+            
         }
 
         /**
@@ -321,6 +355,7 @@ public class PebbleGame implements PlayerListener, Runnable {
                     this.pebbles.add(rand);
 
                     this.drawnMessage(bag, rand.getValue());
+                    handMessage();
                     
                 }    
         }
@@ -369,6 +404,7 @@ public class PebbleGame implements PlayerListener, Runnable {
             this.pebbles.remove(toDiscard);
 
             this.discardedMessage(partnerBag, toDiscard.getValue());
+            handMessage();
             this.setNewBag();
 
         }
@@ -386,6 +422,8 @@ public class PebbleGame implements PlayerListener, Runnable {
                 e.printStackTrace();
             }
         }
+        
+        
 
         /**
          * Method to write a message about which value was discarded into which bag
@@ -403,7 +441,8 @@ public class PebbleGame implements PlayerListener, Runnable {
          * @param value 
          */
         public void drawnMessage(Bag bag, int value) {
-            String output = PebbleGame.this.turn + " " + this.name + " has drawn a " + value + " from bag " + bag.getName();
+            //String output = PebbleGame.this.turn + " " + this.name + " has drawn a " + value + " from bag " + bag.getName();
+            String output = this.name + " has drawn a " + value + " from bag " + bag.getName();
             //System.out.println(output);
             this.writeToFile(output);
             
@@ -460,7 +499,7 @@ public class PebbleGame implements PlayerListener, Runnable {
 
         private Pebble choosePebbleUnder(){
            Pebble[] temp = this.getHand();
-           System.out.println(Arrays.toString(temp));
+           //System.out.println(Arrays.toString(temp));
            Pebble toDiscard = temp[0];
            for(Pebble pebble: temp){
                if (pebble.getValue() < toDiscard.getValue())
@@ -496,7 +535,7 @@ public class PebbleGame implements PlayerListener, Runnable {
         }
 
         public void fireFoundEmptyBagEvent() {
-            System.out.println("Bag is empty");
+            //System.out.println("Bag is empty");
             //PebbleGame.this.gameOver = true;
             PlayerEvent event = new PlayerEvent(this);
             this.playerListener.onPlayerFoundEmptyBagEvent(event);
@@ -504,7 +543,7 @@ public class PebbleGame implements PlayerListener, Runnable {
         }
 
         public void fireHasDrawnEvent() {
-            System.out.println(this.name + " has drawn");
+            //System.out.println(this.name + " has drawn");
             PlayerEvent event = new PlayerEvent(this);
             this.playerListener.onPlayerHasDrawnEvent(event);
         }

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class VerifyInput {
     
     private int[][] values;
+    private int playerNumber;
     
     public VerifyInput() {
         this.values = new int[3][];
@@ -26,6 +27,10 @@ public class VerifyInput {
     
     public int[][] getValues() {
         return this.values;
+    }
+    
+    public void setPlayerNumber(int number) {
+        this.playerNumber = number;
     }
     /**
      * 
@@ -98,11 +103,14 @@ public class VerifyInput {
         
     }
     
+    
+    
     public boolean verifyFileContent(String filepath) throws IOException, IllegalFileContentException {
         ReadFile rf = new ReadFile(filepath);
         String line = rf.openFile();
         
         if (lineIsLegal(line)) {
+            
             //System.out.println("The file content is legal");
             return true;
         }
@@ -169,16 +177,26 @@ public class VerifyInput {
         return true;
     }
     
-    private void placeIntoArray(String[] numbers) {
+    private void placeIntoArray(String[] numbers) throws IllegalFileContentException {
         int[] array = Arrays.stream(numbers).mapToInt(Integer::parseInt).toArray();
         //System.out.println(Arrays.toString(array));
-        for (int i = 0; i < this.values.length; i++) {
+        if (verifyPlayerPebbleRelation(array)) {
+           for (int i = 0; i < this.values.length; i++) {
             
-            if (this.values[i] == null) {
-                this.values[i] = array;
-                
-                return;
-            }
+                if (this.values[i] == null) {
+                    this.values[i] = array;
+
+                    return;
+                }
+            } 
         }
+        
+    }
+    
+    private boolean verifyPlayerPebbleRelation(int[] pebbleValues) throws IllegalFileContentException {
+        if (pebbleValues.length >= this.playerNumber * 11 && pebbleValues.length <= this.playerNumber * 15) {
+            return true;
+        }
+        throw new IllegalFileContentException("The bag needs to contain at least 11 times the amount of pebbles of players and a maximum of 15 times the amount of players.");
     }
 }

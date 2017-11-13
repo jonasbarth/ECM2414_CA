@@ -30,5 +30,10 @@ public class PlayerEvent extends EventObject {
         return player.getCurrentBag();
     }
     
+    public String getName() {
+        Player player = (Player) this.source;
+        return player.getName();
+    }
+    
     
 }
