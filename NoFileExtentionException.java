@@ -6,8 +6,9 @@
 package ECM2414_CA;
 
 /**
+ * Class that holds information about the Exception specifically for when no file extension has been used with the file name
  *
- * @author Jonas
+ * @author 660050748, 660049985
  */
 class NoFileExtentionException extends Exception {
     
