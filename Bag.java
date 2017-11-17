@@ -19,6 +19,7 @@ import java.util.Random;
  */
 public abstract class Bag {
     
+    //private Pebble[] pebbles;
     private Bag partnerBag;
     private ArrayList pebbles;
     private Random random;
@@ -26,7 +27,7 @@ public abstract class Bag {
     
     
     /**
-     * This constructor will be used for the 
+     * 
      * @param pebbles
      * @param partnerBag 
      */
@@ -41,11 +42,7 @@ public abstract class Bag {
         
         this.name = name;
     }
-    /**
-    *
-    *
-    *
-    */
+    
     public Bag(Pebble[] pebbles, String name) {
         this.pebbles = new ArrayList(1);
         for (Pebble pebble : pebbles) {

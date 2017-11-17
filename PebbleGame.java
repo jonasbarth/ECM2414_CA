@@ -35,7 +35,7 @@ public class PebbleGame implements PlayerListener, Runnable {
     private BlackBag[] blackBags;
     private WhiteBag[] whiteBags;
     private int turn;
-    private boolean gameOver;
+    private volatile boolean gameOver;
     private Player winner;
     private ArrayList<GameListener> gameListeners;
     private HashMap playerDraw;
@@ -153,6 +153,7 @@ public class PebbleGame implements PlayerListener, Runnable {
         
         
         
+        
     }
     
     public void startGame() {
@@ -164,10 +165,16 @@ public class PebbleGame implements PlayerListener, Runnable {
         while(!this.gameOver) {
             
             if (allPlayersHaveDrawn()) {
+                this.playerDraw = new HashMap();
+                setUpHashMap(this.players);
+                System.out.println("All players have drawn");
                 fireNewTurnEvent();
             }
             
         }
+                  
+        System.out.println("This games was " + this.turn);
+
     }
     
     private boolean allPlayersHaveDrawn() {
@@ -199,6 +206,7 @@ public class PebbleGame implements PlayerListener, Runnable {
     }
     
     public void incrementTurn() {
+        System.out.println("Current turn: " + this.turn);
         this.turn++;
     }
     
@@ -225,7 +233,7 @@ public class PebbleGame implements PlayerListener, Runnable {
 
     @Override
     public synchronized void onPlayerHasDrawnEvent(PlayerEvent e) {
-        //System.out.println("A player has drawn");
+        System.out.println(e.getName() + " has drawn");
         Player player = (Player) e.getSource();
         this.playerDraw.put(player, true);
     }
@@ -249,7 +257,8 @@ public class PebbleGame implements PlayerListener, Runnable {
         private Random random;
         private String name;
         private PlayerListener playerListener;
-        private boolean continuePlaying, newTurn = false;
+        
+        private volatile boolean newTurn = false;
         private int totalWeight;
         private WriteToFile file;
        
@@ -543,7 +552,8 @@ public class PebbleGame implements PlayerListener, Runnable {
         }
 
         public void fireHasDrawnEvent() {
-            //System.out.println(this.name + " has drawn");
+            
+            //System.out.println(this.name + " has drawn : " + PebbleGame.this.turn);
             PlayerEvent event = new PlayerEvent(this);
             this.playerListener.onPlayerHasDrawnEvent(event);
         }

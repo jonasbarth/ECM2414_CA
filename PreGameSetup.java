@@ -100,7 +100,7 @@ public class PreGameSetup {
     public boolean validPlayerEntry(String entry) {
         try {
             int players = Integer.parseInt(entry);
-            if (players < 1) {
+            if (players < 2) {
                 return false;
             }
             this.playerEntry = players;
