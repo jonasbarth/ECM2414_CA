@@ -6,7 +6,7 @@
 package ECM2414_CA;
 
 /**
- * Class for the Exception specifically for when a file has not been given or found
+ * Class for the Exceptions specifically for when a file has not been given or found
  * 
  * @author 660050748, 660049985
  */
