@@ -15,10 +15,6 @@ package ECM2414_CA;
  */
 public class BlackBag extends Bag{
     
-    public BlackBag(Pebble[] pebbles, WhiteBag partnerBag, String name) {
-        super(pebbles, partnerBag, name);
-    }
-    
     public BlackBag(Pebble[] pebbles, String name) {
         super(pebbles, name);
     }
