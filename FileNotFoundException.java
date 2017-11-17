@@ -6,8 +6,9 @@
 package ECM2414_CA;
 
 /**
- *
- * @author Jonas
+ * Class for the Exception specifically for when a file has not been given or found
+ * 
+ * @author 660050748, 660049985
  */
 public class FileNotFoundException extends Exception {
     public FileNotFoundException(String message) {
