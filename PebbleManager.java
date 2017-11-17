@@ -6,8 +6,9 @@
 package ECM2414_CA;
 
 /**
- *
- * @author jb901
+ * Interface holds the current needed methods for the Pebble Class
+ * 
+ * @author 660050748, 660049985
  */
 public interface PebbleManager {
     
