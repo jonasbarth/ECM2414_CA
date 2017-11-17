@@ -20,18 +20,6 @@ public class BlackBag extends Bag{
     }
     
     /**
-    * Methods adds all of the pebbles in the array to its super field. This method will
-    * be used when the bag is empty and it will be refilled from the pebbles in its partner WhiteBag 
-    *
-    * @param pebbles An array of Pebble objects
-    */
-    public synchronized void addAllPebbles(Pebble[] pebbles) {
-        for (Pebble p : pebbles) {
-            super.addPebble(p);
-        }
-    }
-    
-    /**
     * Method to determine if the BlackBag object has no more Pebble objects in its super field 'pebbles'
     *
     * @param boolean True if it is empty, False if it is not empty
