@@ -25,25 +25,6 @@ public abstract class Bag {
     private Random random;
     private String name;
     
-    
-    /**
-     * Constructor for bags when other bag objects have already been instantiated 
-     *
-     * @param pebbles, the pebbles that the new bag will hold
-     * @param partnerBag, the bag that is directly linked to a particular Bag object
-     * @param name of the bag
-     */
-    public Bag(Pebble[] pebbles, Bag partnerBag, String name) {
-        this.pebbles = new ArrayList(1);
-        for (Pebble pebble : pebbles) {
-            this.pebbles.add(pebble);
-        }
-        setPartnerBag(partnerBag);
-        this.random = new Random();
-        
-        this.name = name;
-    }
-    
      /**
      * Constructor for bags when other bag objects have not already been instantiated 
      *
