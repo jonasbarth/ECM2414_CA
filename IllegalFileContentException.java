@@ -7,7 +7,7 @@ package ECM2414_CA;
 
 /**
  * Class for Exceptions that occur when the content of the file is not of the specified format: A list of comma, seperated
- * integers 
+ * integers.
  *
  * @author 660050748, 660049985
  */
