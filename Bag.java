@@ -14,7 +14,8 @@ import java.util.Random;
 
 
 /**
- *
+ * Class holds methods to manipulate the contents like taking away pebbles, adding pebbles to the bag
+ * and getting information from the bag such as the name and partnerBag.
  * @author 660050748, 660049985
  */
 public abstract class Bag {
