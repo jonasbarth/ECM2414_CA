@@ -6,8 +6,9 @@
 package ECM2414_CA;
 
 /**
+ * A class that holds methods to determine whether a list is a list of comma seperated integers.
  *
- * @author Jonas
+ * @author 660050748, 660049985
  */
 public class SpaceVerification {
     
