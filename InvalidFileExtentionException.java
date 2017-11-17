@@ -6,8 +6,9 @@
 package ECM2414_CA;
 
 /**
+ * Class that holds the Exceptions specifically for when the incorrect file extension is used
  *
- * @author Jonas
+ * @author 660050748, 660049985
  */
 public class InvalidFileExtentionException extends Exception {
 
