@@ -8,13 +8,17 @@ package ECM2414_CA;
 
 
 /**
+ * This class consists of a method that operate to retrieve the weight of the Pebble object.
  *
- * @author 
+ * @author 660050748, 660049985
+ * @version 17/11/2017
  */
 public class Pebble implements PebbleManager{
+    //Final as we do not want the weight of the pebble to change during the game
     private final int value;
     
     public Pebble(int value) throws IllegalPebbleValueException {
+        //to verify that only pebbles with weight above 0 are used.
         if (value > 0) {
             this.value = value;
         }
