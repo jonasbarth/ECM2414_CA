@@ -6,6 +6,7 @@
 package ECM2414_CA;
 
 /**
+ * Class for the Exceptions, specifically for when an illegal value of the weight of the pebble has been found.
  *
  * @author Jonas
  */
