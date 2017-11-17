@@ -11,7 +11,7 @@ package ECM2414_CA;
  *
  * @author 
  */
-public class Pebble {
+public class Pebble implements PebbleManager{
     private final int value;
     
     public Pebble(int value) throws IllegalPebbleValueException {

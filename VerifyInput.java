@@ -64,8 +64,9 @@ public class VerifyInput {
         int i = fileName.lastIndexOf(".");
         String fileExtension = fileName.substring(i + 1);
         String txt = "txt";
+        String csv = "csv";
         
-        if (txt.equals(fileExtension)) {
+        if (fileExtension.equals(txt) || fileExtension.equals(csv)) {
             return true;
             }
             //return false;

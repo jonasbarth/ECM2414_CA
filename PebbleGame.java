@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  *
  * @author 
  */
-public class PebbleGame implements PlayerListener, Runnable {
+public class PebbleGame implements PlayerListener, Runnable, GameManager {
     
     private Player[] players;
     private BlackBag[] blackBags;
@@ -167,7 +167,7 @@ public class PebbleGame implements PlayerListener, Runnable {
             if (allPlayersHaveDrawn()) {
                 this.playerDraw = new HashMap();
                 setUpHashMap(this.players);
-                System.out.println("All players have drawn");
+                //System.out.println("All players have drawn");
                 fireNewTurnEvent();
             }
             
@@ -201,12 +201,12 @@ public class PebbleGame implements PlayerListener, Runnable {
         }
     }
     
-    private synchronized void registerGameListener(GameListener listener) {
+    public synchronized void registerGameListener(GameListener listener) {
         this.gameListeners.add(listener);
     }
     
     public void incrementTurn() {
-        System.out.println("Current turn: " + this.turn);
+        //System.out.println("Current turn: " + this.turn);
         this.turn++;
     }
     
@@ -233,7 +233,7 @@ public class PebbleGame implements PlayerListener, Runnable {
 
     @Override
     public synchronized void onPlayerHasDrawnEvent(PlayerEvent e) {
-        System.out.println(e.getName() + " has drawn");
+        //System.out.println(e.getName() + " has drawn");
         Player player = (Player) e.getSource();
         this.playerDraw.put(player, true);
     }
@@ -250,7 +250,7 @@ public class PebbleGame implements PlayerListener, Runnable {
    
     
     
-    public class Player implements Runnable, GameListener {
+    public class Player implements Runnable, GameListener, Playing {
 
         private BlackBag currentBag;
         private ArrayList pebbles;
