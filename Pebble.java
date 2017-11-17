@@ -12,9 +12,11 @@ package ECM2414_CA;
  * @author 
  */
 public class Pebble {
+    //weight of pebble should not change throughout the gameplay
     private final int value;
     
     public Pebble(int value) throws IllegalPebbleValueException {
+        //To satisfy the requirement that the weight of the pebble cannot be 0 or below
         if (value > 0) {
             this.value = value;
         }
