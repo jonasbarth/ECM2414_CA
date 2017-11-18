@@ -13,8 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Class that holds methods to interact with the user to get the necessary information to start the game
  *
- * @author Jonas
+ * @author 660050748, 660049985
  */
 public class PreGameSetup {
     
@@ -22,10 +23,14 @@ public class PreGameSetup {
     private int[][] bagValues;
     private int playerEntry;
     
+    /**
+    * Constructor for the PreGameSetup class
+    */
     public PreGameSetup() {
         vf = new VerifyInput();
         this.bagValues = new int[3][];
     }
+    
     
     public void askInput() {
         Scanner scanner = new Scanner(System.in);
