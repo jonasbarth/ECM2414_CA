@@ -243,7 +243,7 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
     }
     
     /**
-    * Class holds methods 
+    * Class holds methods that deal with the functionality of the Player class
     */
     public class Player implements Runnable, GameListener, Playing {
 
@@ -260,7 +260,12 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         
 
 
-
+        /**
+        * Constructor for the Player Class with two arguments
+        *
+        * @param name String that will be the name for the Player object
+        * @param bagChosenByGame randomly chosen BlackBag
+        */
         public Player(String name, BlackBag bagChosenByGame) {
             this.name = name;
             this.currentBag = bagChosenByGame;
@@ -268,6 +273,11 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
             this.random = new Random();
         }
         
+        /**
+        * Constructor for the Player Class with one argument
+        *
+        * @param name String that will be the name for the Player object
+        */
         public Player(String name) {
             this.name = name;
             
@@ -277,39 +287,27 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
             this.setFile("");
         }
         
-
-        //31/10/2017 better to have interaction only between two types of Objects
-        //in a real game, the bag will be a passive object
         @Override
         public void run() {
             //draw ten pebbles
             for (int i = 0; i < 10; i++) {
-                //System.out.println(this.currentBag);
                 this.drawPebble(this.currentBag);
-            }
-            //fire an event that we have drawn 10 pebbles to start the game
+                }
             while (!PebbleGame.this.gameOver) {
                 //here the player listens if some other player has won
                 if (newTurn){
-                    //here the player should be listening if there is a new turn 
-
                     if (this.hasWinningHand()) {
                         this.fireAnnounceWinEvent();
-
-                    // fire event to tell pebblegame
-                    }
+                        }
                     else {
                         this.discardPebble();
                         this.setNewBag();
                         this.drawPebble(currentBag);
-                    }
-
-
-
-                } 
+                        }
+                    } 
+                }
+                System.out.println(this.name + " has stopped playing");
             }
-            System.out.println(this.name + " has stopped playing");
-        }
         
         public String getName() {
             return this.name;
