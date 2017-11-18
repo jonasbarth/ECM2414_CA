@@ -183,11 +183,13 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         return toReduce;
     }
     
+    //When the Player objects have been created, they have not drawn yet
     private void setUpHashMap(Player[] players) {
         for (Player player : players) {
             this.playerDraw.put(player, false);
         }
     }
+    
     
     public synchronized void registerGameListeners(GameListener[] listeners) {
         for (GameListener listener : listeners) {
@@ -199,14 +201,13 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         this.gameListeners.add(listener);
     }
     
+    /**
+    * Method increments the turn count held in the PebbleGame object
+    */
     public void incrementTurn() {
-        //System.out.println("Current turn: " + this.turn);
         this.turn++;
     }
     
-  
-    
-
     @Override
     public synchronized void onPlayerAnnouncedWinEvent(PlayerEvent e) {
         this.gameOver = true;
@@ -216,13 +217,11 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
     @Override
     public synchronized void onPlayerFoundEmptyBagEvent(PlayerEvent e) {
         //refill the players partner bag
-        
         Pebble[] pebbles = e.getPartnerBag().getAllPebbles();
         e.getPartnerBag().removeAllPebbles();
         BlackBag blackBag = (BlackBag) e.getCurrentBag();
         blackBag.addPebble(pebbles);
-        blackBag.getPebblesAsString();
-        
+        blackBag.getPebblesAsString();  
     }
 
     @Override
@@ -232,18 +231,20 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         this.playerDraw.put(player, true);
     }
     
+    /**
+    * Method fires an event that there will be a new turn and increase
+    * the turn counter by one
+    */
     public void fireNewTurnEvent() {
         for (GameListener listener : this.gameListeners) {
             listener.onTurnChangeEvent(new GameEvent(this));
         }
         this.incrementTurn();
     }
-
     
-
-   
-    
-    
+    /**
+    * Class holds methods 
+    */
     public class Player implements Runnable, GameListener, Playing {
 
         private BlackBag currentBag;
