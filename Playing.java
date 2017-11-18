@@ -9,7 +9,7 @@ import ECM2414_CA.listenerEvent.PlayerListener;
 
 /**
  *
- * @author jb901
+ * @author 660050748, 660049985
  */
 public interface Playing {
     
