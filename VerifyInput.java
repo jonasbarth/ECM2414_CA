@@ -160,6 +160,7 @@ public class VerifyInput {
                 itemToAdd += line.charAt(i);
             }
         }
+        weights.add(itemToAdd);
         List<String> clean = removeWhiteSpaces(weights);
         String[] toReturn = new String[clean.size()];
         toReturn = clean.toArray(toReturn);
