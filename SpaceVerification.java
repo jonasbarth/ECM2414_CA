@@ -35,6 +35,7 @@ public class SpaceVerification {
     * Method throws an exception if the format is not a list of comma seperated integers
     *
     * @param check String which will be coming from the file input for the pebbles
+    * @throws IllegalFileContentException when there are two integers not seperated by a comma
     **/
     public void allTogether(String check) throws IllegalFileContentException{
         for(int i = 0;i < check.length(); i++){
