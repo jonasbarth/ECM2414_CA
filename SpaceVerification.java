@@ -38,8 +38,8 @@ public class SpaceVerification {
     * @throws IllegalFileContentException when there are two integers not seperated by a comma
     **/
     public void allTogether(String check) throws IllegalFileContentException{
-        for(int i = 0;i < check.length(); i++){
-            
+        if (check == null) throw new IllegalFileContentException("File is empty");
+        for(int i = 0;i < check.length(); i++){       
             if(passedInt) this.recentPassInt = true;
             if(passedSpace) this.recentPassSpace = true;
             //to identify as a space
