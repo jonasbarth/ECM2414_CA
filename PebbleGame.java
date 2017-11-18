@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 
 
 /**
- *
- * @author 
+ * Class holds methods to initialise the Pebble game simulation
+ * @author 660050748, 660049985
  */
 public class PebbleGame implements PlayerListener, Runnable, GameManager {
     
@@ -149,28 +149,28 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
             }  
        }
     
-    
+    /**
+    * Method starts the game by instantiating the threads and making them continually
+    * draw pebbles until a winner has been declared
+    */
     public void startGame() {
         for (Player player : this.players) {
             Thread thread = new Thread(player);
-            thread.start();
-            
+            thread.start(); 
         }
         while(!this.gameOver) {
             
             if (allPlayersHaveDrawn()) {
                 this.playerDraw = new HashMap();
                 setUpHashMap(this.players);
-                //System.out.println("All players have drawn");
                 fireNewTurnEvent();
-            }
+                }
             
-        }
-                  
+            }         
         System.out.println("This games was " + this.turn);
-
-    }
+     }
     
+    //Service methhod to verify that all Player objects have drawn
     private boolean allPlayersHaveDrawn() {
         Collection<Player> toCheck;
         toCheck = this.playerDraw.values();
