@@ -40,7 +40,13 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
     private ArrayList<GameListener> gameListeners;
     private HashMap playerDraw;
     
-    
+    /**
+    * Constructor for PebbleGame class with 3 arguments
+    *
+    * @param players an array of Players that will participate in the game
+    * @param blackBags an array of BlackBags that will participate in the game 
+    * @param whiteBags an array of WhiteBags that will participate in the game
+    */
     public PebbleGame(Player[] players, BlackBag[] blackBags, WhiteBag[] whiteBags) {
         this.players = new Player[players.length];
         this.players = players;
@@ -57,6 +63,12 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         this.setUpHashMap(this.players);
     }
     
+    /**
+    * Constructor for PebbleGame class with 2 arguments
+    *
+    * @param numberOfPlayers the number of players that will participate in the game
+    * @param blackBagValues the different weights that the pebbles will have
+    */
     public PebbleGame(int numberOfPlayers, int[][] blackBagValues) {
         this.players = new Player[numberOfPlayers];
         this.blackBags = initBlackBags(blackBagValues);
@@ -72,89 +84,71 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         this.turn = 0;
         this.gameOver = false;
         this.playerDraw = new HashMap();
-        this.setUpHashMap(this.players);
-        
-       
+        this.setUpHashMap(this.players);  
     }
     
-   
-    
-  
+    //Service method that sets each bag its partner bag. So, 'A' to 'X' etc
     private void partnerBags() {
         for (int i = 0; i < this.blackBags.length; i++) {
             BlackBag black = this.blackBags[i];
             WhiteBag white = this.whiteBags[i];
             black.setPartnerBag(white);
-            white.setPartnerBag(black);
-            
+            white.setPartnerBag(black);    
+            }
         }
-    }
-
+    
+    //Service method that initialises the WhiteBag objects and returns the array of them
     private WhiteBag[] initWhiteBags() {
         WhiteBag[] bags = new WhiteBag[3];
         Pebble[] pebbleArray = new Pebble[0];
         String[] bagNames = {"A", "B", "C"};
         for (int i = 0; i < 3; i++){
             bags[i] = new WhiteBag(pebbleArray, bagNames[i]);
-        }
+            }
         return bags;
-    }
+        }
     
+    //Service method that initialises the BlackBag objects and returns the array of them
     private BlackBag[] initBlackBags(int[][] pebbles) {
-        
         BlackBag[] bags = new BlackBag[3];
         String[] bagNames = {"X", "Y", "Z"};
         Pebble[][] pebbleArray = intToPebbleArray(pebbles);
-        
         for (int i = 0; i < 3; i++){
             bags[i] = new BlackBag(pebbleArray[i], bagNames[i]);
-        }
+            }
         return bags;
-    }
+        }
     
+    //Service method that converts the int values into Pebble objects and returns
+    //Pebble[][] since there will be 3 different files we will be accessing for the pebble 
+    //weight information
     private Pebble[][] intToPebbleArray(int[][] pebbles) {
         Pebble[][] pebbleArray = new Pebble[3][this.players.length * 15];
-       
         for (int i = 0; i < pebbles.length; i++) {
-            
             for (int j = 0; j < pebbles[i].length; j++) {
                 try {
                     int length = pebbles[i].length;
-                    
                     Pebble pebble = new Pebble(pebbles[i][j]);
-                    //System.out.println(pebble.getValue());
-                    
                     pebbleArray[i][j] = pebble;
                 } catch (IllegalPebbleValueException e) {
                     e.printStackTrace();
+                     }
                 }
-                
             }
-            
-        }
         return pebbleArray;
-    }
+        }
+    
     @Override
     public void run() {
-        
         for (Player player : this.players) {
             Thread thread = new Thread(player);
             thread.start();
-            
         }
         while(!this.gameOver) {
-            
-            if (allPlayersHaveDrawn()) {
-                fireNewTurnEvent();
-            }
-        }
-        
-        
-        
-        
-        
-        
-    }
+            if (allPlayersHaveDrawn()) fireNewTurnEvent();
+            }  
+       }
+    
     
     public void startGame() {
         for (Player player : this.players) {
