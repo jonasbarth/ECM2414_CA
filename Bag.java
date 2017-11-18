@@ -104,11 +104,9 @@ public abstract class Bag {
     
     public synchronized void addPebble(Pebble[] pebbles){
         this.pebbles.addAll(Arrays.asList(pebbles));
-        //I took out trim to size -- if it breaks add it here again
     }
     
     //Service method to remove a particular pebble from this current bag
-    // -- converted to private, if it breaks, change this up
     private synchronized void removePebble(Pebble pebble) { 
         this.pebbles.remove(pebble);
         this.pebbles.trimToSize();
