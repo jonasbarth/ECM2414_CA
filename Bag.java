@@ -150,10 +150,10 @@ public abstract class Bag {
     private int[] getIntPebbleArray() {
         removeNulls();
         Object[] object = this.pebbles.toArray();
-        int[] ints = new int[obj.length]; //int array to hold value of each pebble
+        int[] ints = new int[object.length]; //int array to hold value of each pebble
         
-        for (int i = 0; i < obj.length; i++) {
-            Pebble pebble = (Pebble) obj[i];
+        for (int i = 0; i < object.length; i++) {
+            Pebble pebble = (Pebble) object[i];
             ints[i] = pebble.getValue();
         }
         
