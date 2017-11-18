@@ -82,7 +82,8 @@ public class PreGameSetup {
                 }
             if (next.equals("E")) break;
             }
-        return next;    
+        return next;  
+    }
 
     //helper method that will return a String 'E' (to exit) or a number to determine the player amount    
     private String getInfoOnNumOfPlayers(Scanner scanner) {
