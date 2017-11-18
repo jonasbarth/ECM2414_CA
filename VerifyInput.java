@@ -13,29 +13,43 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Class that holds methods to verify we are taking the correct input from the text or CSV files
  *
- * @author 
+ * @author 660050748, 660049985
  */
 public class VerifyInput {
     
     private int[][] values;
     private int playerNumber;
     
+    /**
+    *
+    * Constructor for the VerifyInput Class
+    */
     public VerifyInput() {
         this.values = new int[3][];
     }
     
+    /**
+    * Method to get the values held in the 'values' field 
+    */
     public int[][] getValues() {
         return this.values;
     }
     
+    /**
+    * Method to set the number of players that there will be in the game
+    * 
+    * @param number will be the number of players the user requests
+    */
     public void setPlayerNumber(int number) {
         this.playerNumber = number;
     }
     /**
-     * 
-     * @param fileName
-     * @return 
+     * Method determines if the given path for a file is valid 
+     *
+     * @param fileName a string containing the path for the required file
+     * @return boolean True if the file is a .txt or .csv and if it also exists at the given path
      */
     public boolean verifyFileMeta(String fileName) throws FileNotFoundException, NoFileExtentionException, InvalidFileExtentionException {
         //System.out.println("verifyFileMeta: " + fileName);
@@ -50,16 +64,17 @@ public class VerifyInput {
         return false;
     }
     
+    //helper method to determine if the file contains a "." to show that it can have .csv or .txt
+    //hence, it will be able to read in as a file
     private boolean verifyFileHasExtention(String fileName) throws NoFileExtentionException {
         int i = fileName.lastIndexOf(".");
         if (i > 0) {
-            //System.out.println("File has an extention");
             return true;
             }
-        //return false;
         throw new NoFileExtentionException("Your file has no file extention");
     }
     
+    //helper method to check if the file is of a type .txt or .csv
     private boolean verifyFileExtention(String fileName) throws InvalidFileExtentionException {
         int i = fileName.lastIndexOf(".");
         String fileExtension = fileName.substring(i + 1);
@@ -69,11 +84,10 @@ public class VerifyInput {
         if (fileExtension.equals(txt) || fileExtension.equals(csv)) {
             return true;
             }
-            //return false;
         throw new InvalidFileExtentionException("File must of txt format");
      }
     
-    
+    //helper method to determine if a file exists in the given path
     private boolean fileExists(String filepath) throws FileNotFoundException {
         //System.out.println("Checking if this file exists at " + filepath);
         if (new File(filepath).exists()) {
@@ -82,15 +96,11 @@ public class VerifyInput {
         throw new FileNotFoundException("There is no file at the specified path");
     }
     
-    /**
-     * Verifies that the player entry from the commmandline is legal
-     * @param commandLineInput
-     * @return boolean
-     */
+    //Helper method to check that the user has inputted an integer greater than 1
+    //for the amount of players
     private boolean verifyPlayerNumber(String commandLineInput) {
         try {
             int playerNumber = Integer.parseInt(commandLineInput);
-            
             if (playerNumber > 1) {
                 return true;
             }
