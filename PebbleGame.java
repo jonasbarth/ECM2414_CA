@@ -226,7 +226,7 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         Pebble[] pebbles = e.getPartnerBag().getAllPebbles();
         e.getPartnerBag().removeAllPebbles();
         BlackBag blackBag = (BlackBag) e.getCurrentBag();
-        blackBag.addAllPebbles(pebbles);
+        blackBag.addPebble(pebbles);
         blackBag.getPebblesAsString();
         
     }
