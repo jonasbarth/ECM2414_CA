@@ -12,10 +12,11 @@ package ECM2414_CA;
  */
 public class SpaceVerification {
     
-    // instance variables - replace the example below with your own
     private boolean passedInt, passedSpace, recentPassInt, recentPassSpace;
     
-
+    /**
+    * Constructor sets all of the flags to false to begin verification
+    **/
     public SpaceVerification(){
         this.passedInt = false;
         this.passedSpace = false;
@@ -23,46 +24,52 @@ public class SpaceVerification {
         this.recentPassSpace = false;
     }
     
+    //resets once we have encountered a comma in the string
     private void resetFlags(){
         this.passedSpace = false;
         this.passedInt = false;
         this.recentPassInt = false;
         this.recentPassSpace = false;
     }
-    
+    /**
+    * Method throws an exception if the format is not a list of comma seperated integers
+    *
+    * @param check String which will be coming from the file input for the pebbles
+    **/
     public void allTogether(String check) throws IllegalFileContentException{
         for(int i = 0;i < check.length(); i++){
             
             if(passedInt) this.recentPassInt = true;
             if(passedSpace) this.recentPassSpace = true;
+            //to identify as a space
             String use = "";
             char check2 = check.charAt(i);
             use += check2;
             try {
+                //will work if we have encountered an integer
                 int numCheck = Integer.parseInt(use);
                 this.passedInt = true;
-                //System.out.println("Passed an int");
+                //makes sure we have not passed an int and space already
+                //i.e. the integers have not been seperated by a comma
                 canUse();
                 this.passedSpace = false;
                 this.recentPassSpace = false;
                 
             }
             catch (NumberFormatException e) {
-                //System.out.println("Not an int");
+                //passing a space
                 if(use.equals(" ")) {
-                    this.passedSpace = true;
-                    //System.out.println("Passed a space");
-                    
+                    this.passedSpace = true;  
                 }
                 else if(use.equals(",")) {
                     resetFlags();
-                    //System.out.println("reset flags");
                 }
             }
             
         }
     }
     
+    //helper method to determine if we have two seperate integers not seperated by a comma - throws exception if so
     private void canUse() throws IllegalFileContentException{
         if(this.passedInt && this.passedSpace && this.recentPassInt && this.recentPassSpace) {
             
