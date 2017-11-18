@@ -129,13 +129,13 @@ public class VerifyInput {
         throw new IllegalFileContentException("The file content is illegal, make sure the file consists of a comma separated list of integers");
     }
     
+    //helper method to determine if the String is a list of integers seperated by commas
     private boolean lineIsLegal(String line) throws NumberFormatException, IllegalFileContentException{
         SpaceVerification sv = new SpaceVerification();
         sv.allTogether(line);
         String[] strings = upToComma(line);
-        //System.out.println(Arrays.toString(strings));
         if (isIntegers(strings)) {
-            //System.out.println(Arrays.toString(strings));
+            //if all of the values in 'strings' are valid integers we proceed
             placeIntoArray(strings);
             return true;
         }
@@ -143,11 +143,15 @@ public class VerifyInput {
         
     }
     
+    //helper method to get
     private String[] upToComma(String line) {
         char comma = ',';
         List<String> weights = new ArrayList<String>();
         String itemToAdd = "";
         for(int i = 0; i < line.length(); i++){
+            //we loop through the String and we begin concatenating the number
+            //if it is more than 1 digit. When a comma is found, we add that number
+            //to 'weights' and reset the string itemToAdd to get the next number
             if(line.charAt(i) == comma){
                 weights.add(itemToAdd);
                 itemToAdd = "";
@@ -162,13 +166,15 @@ public class VerifyInput {
         return toReturn;
     }
     
-    
+    //helper method removes any spaces that might be in the string 
     private List<String> removeWhiteSpaces(List<String> clean){
         List<String> withoutWhiteSpaces = clean.stream().map(i -> i.replaceAll("\\s", "")).collect(Collectors.toList());
         return withoutWhiteSpaces;
         
     }
     
+    //helper method that verifies that all of the String objects in the array are integers and that they are not 0 or
+    //any negative values. True is returned only if all of those conditions are met
     private boolean isIntegers(String[] listOfNumbers) throws NumberFormatException, IllegalFileContentException {
         if (listOfNumbers.length == 0) {
             return false;
@@ -188,6 +194,8 @@ public class VerifyInput {
         return true;
     }
     
+    //helper method uses the information in 'numbers' to update its (the verifyInput object)
+    //field 'values' if conditions in verifyPlayerPebbleRelation() hold
     private void placeIntoArray(String[] numbers) throws IllegalFileContentException {
         int[] array = Arrays.stream(numbers).mapToInt(Integer::parseInt).toArray();
         //System.out.println(Arrays.toString(array));
@@ -204,10 +212,12 @@ public class VerifyInput {
         
     }
     
+    //helper method to determine whether the amount of pebbles equals or supercedes the amount of players*11
+    //also verifies that the there are not more than 15*amount of players number of pebbles in the bag
     private boolean verifyPlayerPebbleRelation(int[] pebbleValues) throws IllegalFileContentException {
         if (pebbleValues.length >= this.playerNumber * 11 && pebbleValues.length <= this.playerNumber * 15) {
             return true;
         }
-        throw new IllegalFileContentException("The bag needs to contain at least 11 times the amount of pebbles of players and a maximum of 15 times the amount of players.");
+        throw new IllegalFileContentException("The bag needs to contain at least 11 times the amount of players of pebbles and a maximum of 15 times the amount of players of pebbles.");
     }
 }
