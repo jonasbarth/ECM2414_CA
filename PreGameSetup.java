@@ -30,59 +30,25 @@ public class PreGameSetup {
         vf = new VerifyInput();
         this.bagValues = new int[3][];
     }
-    
-    
-    public void askInput() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Press E to exit");
-        boolean exit = false;
-        while (!exit) {
-            
-            System.out.println("Please enter the number of players...");
-            String next = "";
-            while (true) {
-                next = scanner.nextLine();
-                
-                if (validPlayerEntry(next) || next.equals("E")) {
-                    break;
-                }
-                System.out.println("Wrong input, please give a valid player entry");
-            }
-            
+
+public void askInput() {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Press E to exit");
+    boolean exit = false;
+    while (!exit) {
+            String next = null;
+            next = getInfoOnNumOfPlayers(scanner);
             if (next.equals("E")) {
                 exit = true;
-                //System.out.println("You pressed E");
                 break;
             }
-            
-            String[] counts = {"first", "second", "third"};
-            for (int i = 0; i < 3; i++) {
-                System.out.println("Please give the file location of the values for the " + counts[i] + " black bag");
-                
-                while (true) {
-                    //System.out.println("Please give the file location of the values for the " + counts[i] + " black bag");
-                    next = scanner.nextLine();
-                    //System.out.println(next);
-                    try {
-                        if (next.equals("E") || validFile(next)) {
-                            
-                            break;
-                        }
-                        
-                    } catch (Exception e) {
-                        
-                        System.out.println(e);
-                    }
-                }
-                
-                if (next.equals("E")) {
-                    exit = true;
-                    break;
-                }
-            }
-            this.bagValues = vf.getValues();
-            
-            
+            next = getInfoOnPathForPebbles(scanner);
+            if (next.equals("E")) {
+                exit = true;
+                break;
+            } 
+            //This here will get the int[][] from the VerifyInput object 
+            this.bagValues = vf.getValues(); 
             break;
         }
         if (exit) {
@@ -91,18 +57,43 @@ public class PreGameSetup {
         else {
             System.out.println("Game now starting");
             PebbleGame pg = new PebbleGame(this.playerEntry, this.bagValues);
-            //Thread thread = new Thread(pg);
-            //thread.start();
             pg.startGame();
         }
         
-    }
-        
+    }    
     
-    
-    
-    
-    public boolean validPlayerEntry(String entry) {
+//Helper method that will return a String that will either be 'E' (to exit) or the path to get the file
+private String getInfoOnPathForPebbles(Scanner scanner) {
+    String next = null;
+    String[] counts = {"first", "second", "third"};
+    for (int i = 0; i < 3; i++) {
+         System.out.println("Please give the file location of the values for the " + counts[i] + " black bag");
+         while (true) {
+            next = scanner.nextLine();
+            try {
+                if (next.equals("E") || validFile(next)) break;
+                    } catch (Exception e) {
+                        System.out.println(e);
+                        }
+             }
+         if (next.equals("E")) break;
+         }
+     return next;    
+
+//helper method that will return a String 'E' (to exit) or a number to determine the player amount    
+private String getInfoOnNumOfPlayers(Scanner scanner) {
+    System.out.println("Please enter the number of players...");
+    String next = "";
+    while (true) {
+        next = scanner.nextLine();
+        if (validPlayerEntry(next) || next.equals("E")) break;
+        System.out.println("Wrong input, please give a valid player entry");
+            }
+    return next;
+    }    
+
+//Helper method to verify that amount of players inputted is greater than 1    
+private boolean validPlayerEntry(String entry) {
         try {
             int players = Integer.parseInt(entry);
             if (players < 2) {
@@ -117,23 +108,17 @@ public class PreGameSetup {
         
         }
     }
-    
-    public boolean validFile(String filepath) throws IOException, NoFileExtentionException, InvalidFileExtentionException, IllegalFileContentException, FileNotFoundException {
-        //System.out.println("Validfile " + filepath);
-        
-        
+
+//Helper method to determine if the path for the file is valid
+private boolean validFile(String filepath) throws IOException, NoFileExtentionException, InvalidFileExtentionException, IllegalFileContentException, FileNotFoundException {
         if (vf.verifyFileMeta(filepath) && vf.verifyFileContent(filepath)) {
             System.out.println("File content accepted");
             return true;
         }
         return false;
     }
-    
-    
-    
-    
-    
-    public static void main(String[] args) {
+
+public static void main(String[] args) {
         PreGameSetup ask = new PreGameSetup();
         
         ask.askInput();
