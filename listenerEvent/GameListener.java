@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA.listenerEvent;
+package ecm1414_ca.listenerEvent;
 
 import java.util.EventListener;
 
@@ -18,6 +18,12 @@ public interface GameListener extends EventListener {
     //public void onOtherPlayerAnnouncedWinEvent(GameEvent e);
     
     public void onTurnChangeEvent(GameEvent e);
+    
+    public void fireAnnounceWinEvent();
+    
+    public void fireFoundEmptyBagEvent();
+    
+    public void fireHasDrawnEvent();
     
     
 }
