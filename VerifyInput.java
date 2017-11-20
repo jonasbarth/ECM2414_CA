@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,26 +93,11 @@ public class VerifyInput {
         if (new File(filepath).exists()) {
             return true;
         }
+        System.out.println("Filepath " + filepath);
         throw new FileNotFoundException("There is no file at the specified path");
     }
     
-    //Helper method to check that the user has inputted an integer greater than 1
-    //for the amount of players
-    private boolean verifyPlayerNumber(String commandLineInput) {
-        try {
-            int playerNumber = Integer.parseInt(commandLineInput);
-            if (playerNumber > 1) {
-                return true;
-            }
-            //integer has a value below two
-            return false;
-        }
-        catch (NumberFormatException e) {
-            //argument not a valid integer
-            return false;
-        }     
-        
-    }
+    
     
     
     
@@ -215,10 +200,10 @@ public class VerifyInput {
     
     //helper method to determine whether the amount of pebbles equals or supercedes the amount of players*11
     //also verifies that the there are not more than 15*amount of players number of pebbles in the bag
-    private boolean verifyPlayerPebbleRelation(int[] pebbleValues) throws IllegalFileContentException {
-        if (pebbleValues.length >= this.playerNumber * 11 && pebbleValues.length <= this.playerNumber * 15) {
+    private boolean verifyPlayerPebbleRelation(int[] pebbleValues) throws IllegalFileContentException { 
+        if (pebbleValues.length >= this.playerNumber * 11) {
             return true;
-        }
+        } 
         throw new IllegalFileContentException("The bag needs to contain at least 11 times the amount of players of pebbles and a maximum of 15 times the amount of players of pebbles.");
     }
 }

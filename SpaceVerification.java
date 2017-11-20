@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 /**
  * A class that holds methods to determine whether a list is a list of comma seperated integers.
@@ -39,7 +39,8 @@ public class SpaceVerification {
     **/
     public void allTogether(String check) throws IllegalFileContentException{
         if (check == null) throw new IllegalFileContentException("File is empty");
-        for(int i = 0;i < check.length(); i++){       
+        for(int i = 0;i < check.length(); i++){
+            
             if(passedInt) this.recentPassInt = true;
             if(passedSpace) this.recentPassSpace = true;
             //to identify as a space

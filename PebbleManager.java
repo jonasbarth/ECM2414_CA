@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 /**
  * Interface holds the current needed methods for the Pebble Class

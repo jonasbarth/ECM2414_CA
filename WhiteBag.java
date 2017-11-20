@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 /**
  * Class to allow the creation of Bag type object as Bag is abstract. Allows for distinction
@@ -15,5 +15,13 @@ public class WhiteBag extends Bag{
     
     public WhiteBag(Pebble[] pebbles, String name) {
         super(pebbles, name);
-    }   
+    }
+    
+    /**
+     * Method to set the partner bag of the WhiteBag object.
+     * @param bag the BlackBag object be the partner of this bag.
+     */
+    public void setPartnerBag(BlackBag bag) {
+        this.partnerBag = bag;
+    }
 }

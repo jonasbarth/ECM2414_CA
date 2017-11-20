@@ -1,4 +1,4 @@
-package ECM2414_CA;
+package ecm1414_ca;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileWriter;

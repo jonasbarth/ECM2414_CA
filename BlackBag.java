@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 
 
@@ -22,13 +22,21 @@ public class BlackBag extends Bag{
     /**
     * Method to determine if the BlackBag object has no more Pebble objects in its super field 'pebbles'
     *
-    * @param boolean True if it is empty, False if it is not empty
+    * @return boolean True if it is empty, False if it is not empty
     **/
-    public boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         if (this.getAllPebbles().length == 0){
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Method to set the partner bag of the BlackBag object.
+     * @param bag the WhiteBag object be the partner of this bag.
+     */
+    public void setPartnerBag(WhiteBag bag){
+        this.partnerBag = bag;
     }
     
     

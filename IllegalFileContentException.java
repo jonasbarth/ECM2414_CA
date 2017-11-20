@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 /**
  * Class for Exceptions that occur when the content of the file is not of the specified format: A list of comma, seperated

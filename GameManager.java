@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
-import ECM2414_CA.listenerEvent.GameListener;
+import ecm1414_ca.listenerEvent.GameListener;
 
 /**
  * Interface to be implemented by the PebbleGame class
@@ -14,16 +14,9 @@ import ECM2414_CA.listenerEvent.GameListener;
 public interface GameManager {
     
     /**
-     * Method to register an array of GameListeners
      * 
      */
-    public void registerGameListeners(GameListener[] listeners);
-    
-    /**
-     * Method to register a single GameListener
-     * 
-     */
-    public void registerGameListener(GameListener listener);
+    public void startGame();
     
     
     

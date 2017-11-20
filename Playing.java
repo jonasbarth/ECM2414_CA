@@ -1,14 +1,15 @@
 
-package ECM2414_CA;
+package ecm1414_ca;
 
-import ECM2414_CA.listenerEvent.PlayerListener;
+import ecm1414_ca.listenerEvent.GameListener;
+import ecm1414_ca.listenerEvent.PlayerListener;
 
 /**
  * An interface providing methods for the Player class
  * inside the PebbleGame class
  * @author 660050748, 6600499985
  */
-public interface Playing {
+public interface Playing extends GameListener, Runnable {
     
     /**
      * Method to return the name of the player

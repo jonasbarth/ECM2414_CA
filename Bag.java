@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import java.util.Random;
  */
 public abstract class Bag {
     
-    private Bag partnerBag;
+    protected Bag partnerBag;
     private ArrayList pebbles;
     private Random random;
     private String name;
@@ -49,14 +49,7 @@ public abstract class Bag {
         return this.name;
     }
     
-    /**
-     * Method to set the partnerbag for the current Bag object
-     *
-     * @param partnerBag which is of type Bag
-     */
-    public void setPartnerBag(Bag partnerBag) {
-        this.partnerBag = partnerBag;
-    }
+    
     
     /**
      * Method to get the partner bag of the current Bag object
@@ -73,7 +66,7 @@ public abstract class Bag {
      * 
      * @return Pebble[] the array of pebbles currently in the Bag object
      */
-    public Pebble[] getAllPebbles() {
+    public synchronized Pebble[] getAllPebbles() {
         //Due to the nature of ArrayList, if there are less than 10 objects 
         //instantiated with it. The rest will be made up of Null references
         removeNulls();
@@ -124,7 +117,7 @@ public abstract class Bag {
      * be used to display the current pebbles in the bag
      * @return String type that have the values of of the pebbles currently in the bag
      */
-    public String getPebblesAsString() {
+    public synchronized String getPebblesAsString() {
         return Arrays.toString(getIntPebbleArray());
     }
     

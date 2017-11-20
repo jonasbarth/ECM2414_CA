@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 /**
  * Class for the Exceptions, specifically for when an illegal value of the weight of the pebble has been found.

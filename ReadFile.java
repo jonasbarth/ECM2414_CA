@@ -4,7 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 import java.io.IOException;
 import java.io.FileReader;
@@ -40,31 +40,6 @@ public class ReadFile {
         return textData;
     }
     
-    public int readLine() throws IOException {
-        FileReader fileReader = new FileReader(path);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        
-        String line = "";
-        int numberOfLines = 0;
-        
-        while ((line = bufferedReader.readLine()) != null) {
-            numberOfLines++;
-        }
-        
-        bufferedReader.close();
-        return numberOfLines;
-    }
     
-    public static void main(String[] args){
-        String filepath = "D:/test.txt";
-        ReadFile rf = new ReadFile(filepath);
-        
-        try {
-            System.out.println(rf.openFile());
-        } catch (IOException e) {
-            //Logger.getLogger(ReadFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
     
 }

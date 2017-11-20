@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
-import ECM2414_CA.listenerEvent.GameEvent;
-import ECM2414_CA.listenerEvent.GameListener;
-import ECM2414_CA.listenerEvent.PlayerEvent;
-import ECM2414_CA.listenerEvent.PlayerListener;
+import ecm1414_ca.listenerEvent.GameEvent;
+import ecm1414_ca.listenerEvent.GameListener;
+import ecm1414_ca.listenerEvent.PlayerEvent;
+import ecm1414_ca.listenerEvent.PlayerListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,16 +27,17 @@ import java.util.stream.Collectors;
 
 /**
  * Class holds methods to initialise the Pebble game simulation
+ * 
  * @author 660050748, 660049985
  */
-public class PebbleGame implements PlayerListener, Runnable, GameManager {
+public class PebbleGame implements PlayerListener, GameManager {
     
-    private Player[] players;
-    private BlackBag[] blackBags;
-    private WhiteBag[] whiteBags;
+    private Playing[] players;
+    private volatile BlackBag[] blackBags;
+    private volatile WhiteBag[] whiteBags;
     private int turn;
     private volatile boolean gameOver;
-    private Player winner;
+    private Playing winner;
     private ArrayList<GameListener> gameListeners;
     private HashMap playerDraw;
     
@@ -47,7 +48,7 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
     * @param blackBags an array of BlackBags that will participate in the game 
     * @param whiteBags an array of WhiteBags that will participate in the game
     */
-    public PebbleGame(Player[] players, BlackBag[] blackBags, WhiteBag[] whiteBags) {
+    public PebbleGame(Playing[] players, BlackBag[] blackBags, WhiteBag[] whiteBags) {
         this.players = new Player[players.length];
         this.players = players;
         
@@ -123,11 +124,21 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
     //Pebble[][] since there will be 3 different files we will be accessing for the pebble 
     //weight information
     private Pebble[][] intToPebbleArray(int[][] pebbles) {
-        Pebble[][] pebbleArray = new Pebble[3][this.players.length * 15];
+        
+        Pebble[][] pebbleArray = new Pebble[3][];
+        for (int i = 0; i < pebbleArray.length; i++){
+            pebbleArray[i] = new Pebble[pebbles[i].length];
+            
+        }
+        
+        
+        
         for (int i = 0; i < pebbles.length; i++) {
             for (int j = 0; j < pebbles[i].length; j++) {
                 try {
+                    
                     int length = pebbles[i].length;
+                    
                     Pebble pebble = new Pebble(pebbles[i][j]);
                     pebbleArray[i][j] = pebble;
                 } catch (IllegalPebbleValueException e) {
@@ -138,23 +149,15 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         return pebbleArray;
         }
     
-    @Override
-    public void run() {
-        for (Player player : this.players) {
-            Thread thread = new Thread(player);
-            thread.start();
-        }
-        while(!this.gameOver) {
-            if (allPlayersHaveDrawn()) fireNewTurnEvent();
-            }  
-       }
+    
     
     /**
     * Method starts the game by instantiating the threads and making them continually
     * draw pebbles until a winner has been declared
     */
     public void startGame() {
-        for (Player player : this.players) {
+        for (Playing player : this.players) {
+            player = (Player) player;
             Thread thread = new Thread(player);
             thread.start(); 
         }
@@ -167,7 +170,7 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
                 }
             
             }         
-        System.out.println("This games was " + this.turn);
+        System.out.println("This games ran for " + this.turn + " turns");
      }
     
     //Service methhod to verify that all Player objects have drawn
@@ -184,34 +187,35 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
     }
     
     //When the Player objects have been created, they have not drawn yet
-    private void setUpHashMap(Player[] players) {
-        for (Player player : players) {
+    private void setUpHashMap(Playing[] players) {
+        for (Playing player : players) {
             this.playerDraw.put(player, false);
         }
     }
     
     
-    public synchronized void registerGameListeners(GameListener[] listeners) {
+    private synchronized void registerGameListeners(GameListener[] listeners) {
         for (GameListener listener : listeners) {
             this.gameListeners.add(listener);
         }
     }
     
-    public synchronized void registerGameListener(GameListener listener) {
+    private synchronized void registerGameListener(GameListener listener) {
         this.gameListeners.add(listener);
     }
     
     /**
     * Method increments the turn count held in the PebbleGame object
     */
-    public void incrementTurn() {
+    private void incrementTurn() {
         this.turn++;
     }
     
     @Override
     public synchronized void onPlayerAnnouncedWinEvent(PlayerEvent e) {
         this.gameOver = true;
-        System.out.println(e.getSource());
+        this.winner = (Playing) e.getSource();
+        System.out.println(this.winner.getName() + " has won");
     }
 
     @Override
@@ -235,15 +239,25 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
     * Method fires an event that there will be a new turn and increase
     * the turn counter by one
     */
-    public void fireNewTurnEvent() {
+    private void fireNewTurnEvent() {
         for (GameListener listener : this.gameListeners) {
             listener.onTurnChangeEvent(new GameEvent(this));
         }
         this.incrementTurn();
     }
     
+    
+    public static void main(String[] args) {
+        PreGameSetup setup = new PreGameSetup();
+        
+        setup.askInput();
+    }
+    
     /**
-    * Class holds methods that deal with the functionality of the Player class
+    * Class holds methods that deals with the functionality of the PLayer Object
+    * 
+    * @author 660050748, 660049985
+    * @version 19/11/2017
     */
     public class Player implements Runnable, GameListener, Playing {
 
@@ -252,20 +266,16 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         private Random random;
         private String name;
         private PlayerListener playerListener;
-        
-        private volatile boolean newTurn = false;
+        private boolean newTurn = false;
         private int totalWeight;
         private WriteToFile file;
        
-        
-
-
         /**
-        * Constructor for the Player Class with two arguments
-        *
-        * @param name String that will be the name for the Player object
-        * @param bagChosenByGame randomly chosen BlackBag
-        */
+         * Constructor for the Player Class with 3 arguments
+         * 
+         * @param name String that holds the name of the Player object
+         * @param bagChosenByGame BlackBag that is randomly chosen
+         */
         public Player(String name, BlackBag bagChosenByGame) {
             this.name = name;
             this.currentBag = bagChosenByGame;
@@ -274,45 +284,51 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         }
         
         /**
-        * Constructor for the Player Class with one argument
-        *
-        * @param name String that will be the name for the Player object
-        */
+         * Constructor for the PLayer Class with one argument
+         * 
+         * @param name String that holds the name of the player
+         */
         public Player(String name) {
             this.name = name;
-            
             this.pebbles = new ArrayList(1);
             this.random = new Random();
             this.setNewBag();
             this.setFile("");
         }
         
+
+        //better to have interaction only between two types of Objects
+        //in a real game, the bag will be a passive object
         @Override
         public void run() {
             //draw ten pebbles
             for (int i = 0; i < 10; i++) {
                 this.drawPebble(this.currentBag);
-                }
+            }
             while (!PebbleGame.this.gameOver) {
-                //here the player listens if some other player has won
                 if (newTurn){
                     if (this.hasWinningHand()) {
                         this.fireAnnounceWinEvent();
-                        }
+                    }
                     else {
                         this.discardPebble();
                         this.setNewBag();
                         this.drawPebble(currentBag);
-                        }
-                    } 
-                }
-                System.out.println(this.name + " has stopped playing");
+                    }
+                } 
             }
+            System.out.println(this.name + " has stopped playing");
+        }
         
+        /**
+         * Method to get the name of the Player object
+         * 
+         * @return String the name of the player object
+         */
         public String getName() {
             return this.name;
         }
-        
+       
         public synchronized void registerPlayerListener(PlayerListener listener) {
             this.playerListener = listener;
         }
@@ -321,12 +337,18 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
             this.playerListener = null;
         }
 
+        /**
+         * Method to set a new bag for the player to draw from. If the Bag
+         * is empty, an event will be fired off telling the PebbleGame to refill
+         * the Bag with Pebbles again and the Player selects a new Bag.
+         */
         public void setNewBag() {
             int high = PebbleGame.this.blackBags.length;
             int rand = this.random.nextInt(high);
             BlackBag bag = PebbleGame.this.blackBags[rand];
             
             if (bag.isEmpty()) {
+                
                 fireFoundEmptyBagEvent();
                 setNewBag();
             }
@@ -352,7 +374,10 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
                 fireHasDrawnEvent();
 
             }   else {//tell the pebblegame the bag is empty
+                    
+                    
                     this.fireFoundEmptyBagEvent();
+                    setNewBag();
                     Pebble rand = bag.getRandomPebble(); //returns null
                     this.pebbles.add(rand);
 
@@ -362,10 +387,9 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
                 }    
         }
 
-        /**
-         * Service method to calculate the current weight of all pebbles
-         * held in the player's hand.
-         */
+        
+        //Service method to calculate the current weight of all pebbles
+        //held in the player's hand.
         private void calculateTotalWeight(){
             int totalValue = 0;
             for(Pebble pebble: this.getHand()) {
@@ -377,17 +401,25 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
         /**
          * Method to return the total value of all pebbles currently
          * held in the player's hand
-         * @return int 
+         * 
+         * @return int the total weight the player has in its hand
          */
         public int getTotalWeight(){
             this.calculateTotalWeight();
             return this.totalWeight;
         }
         
-        public Bag getCurrentBag() {
+        /**
+         * Method to return the current Bag that the player has drawn from
+         * 
+         * @return Bag that has been previously been used to draw a Pebble 
+         */
+        public BlackBag getCurrentBag() {
             return this.currentBag;
         }
 
+        //Service method that checks if the player has a total weight of 100
+        //in its hand
         private boolean hasWinningHand() {
             if (this.getTotalWeight() == 100) {
                 return true;
@@ -404,17 +436,16 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
             Pebble toDiscard = this.choosePebble();
             partnerBag.addPebble(toDiscard);
             this.pebbles.remove(toDiscard);
-
             this.discardedMessage(partnerBag, toDiscard.getValue());
             handMessage();
             this.setNewBag();
-
         }
 
         /**
          * Method to set the file path of the file to which output of
          * this player is written
-         * @param filePath 
+         * 
+         * @param filePath that contains the path for the required file
          */
         public void setFile(String filePath) {
             filePath += this.name + "_output.txt";
@@ -425,12 +456,11 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
             }
         }
         
-        
-
         /**
          * Method to write a message about which value was discarded into which bag
-         * @param bag
-         * @param value 
+         * 
+         * @param bag The Bag that the Pebble has been discarded to
+         * @param value The weight of the Pebble that has been discarded
          */
         public void discardedMessage(Bag bag, int value) {
             String output = this.name + " has discarded a " + value + " into bag " + bag.getName();
@@ -439,15 +469,13 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
 
         /**
          * Method to write a message about which value was drawn from which bag
-         * @param bag
-         * @param value 
+         * 
+         * @param bag The Bag that the Pebble has been drawn from
+         * @param value The weight of the Pebble that has been drawn
          */
         public void drawnMessage(Bag bag, int value) {
-            //String output = PebbleGame.this.turn + " " + this.name + " has drawn a " + value + " from bag " + bag.getName();
             String output = this.name + " has drawn a " + value + " from bag " + bag.getName();
-            //System.out.println(output);
             this.writeToFile(output);
-            
         }
 
         /**
@@ -455,32 +483,34 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
          */
         public void handMessage() {
             String output = this.name + " hand is " + Arrays.toString(getHandAsInt());
-            this.writeToFile(output);
-           
+            this.writeToFile(output);  
         }
 
-
+        /**
+         * Method to write to a file
+         * 
+         * @param output The String that will be written to the file 
+         */
         public void writeToFile(String output) {
-            //System.out.println(output);
             try {
                 this.file.writeLineIntoFile(output);
-            } catch (IOException e) {
-                
+            } catch (IOException e) {   
             }
-
         }
-
+        
+        //Service method that gets the hand of the player as an array of ints
+        //representing the weights of the pebbles
         private int[] getHandAsInt() {
             Pebble[] pebbles = this.getHand();
             int[] integers = new int[pebbles.length];
-
             for (int i = 0; i < pebbles.length; i++) {
                 integers[i] = pebbles[i].getValue();
             }
-
             return integers;
         }
-
+        
+        //Service method that represents how the player choses to discard a
+        //pebble from its hand
         private Pebble choosePebble(){
             int totalPoints = this.getTotalWeight();
             if (totalPoints > 100)
@@ -489,6 +519,8 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
                 return this.choosePebbleUnder();
                 }
 
+        //Service method that discards the largest weight if total hand 
+        //is over 100
         private Pebble choosePebbleOver(){
            Pebble[] temp = this.getHand();
            Pebble toDiscard = temp[0];
@@ -499,9 +531,10 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
            return toDiscard;
         }
 
+        //Service method that discards the smallest weight if the total
+        //hand is under 100
         private Pebble choosePebbleUnder(){
            Pebble[] temp = this.getHand();
-           //System.out.println(Arrays.toString(temp));
            Pebble toDiscard = temp[0];
            for(Pebble pebble: temp){
                if (pebble.getValue() < toDiscard.getValue())
@@ -510,6 +543,8 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
            return toDiscard;
         }
 
+        //Service method that gets the hand of the player as an array
+        //of Pebble objects
         private Pebble[] getHand(){
             removeNulls();
             Object[] tempArray = this.pebbles.toArray();
@@ -520,6 +555,7 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
             return toUse;
         }
         
+        //Service method to remove the nulls in a collection
         private void removeNulls() {
             this.pebbles.removeAll(Collections.singleton(null));
         }
@@ -530,30 +566,34 @@ public class PebbleGame implements PlayerListener, Runnable, GameManager {
            this.newTurn = true;
         }
 
+        /**
+         * Method that fires an event once a Player object has won
+         * to tell the PebbleGame
+         */
         public void fireAnnounceWinEvent() {
             System.out.println(this.name + " has won");
             PlayerEvent event = new PlayerEvent(this);
             this.playerListener.onPlayerAnnouncedWinEvent(event);
         }
 
+        /**
+         * Method that fires an event for the PebbleGame to tell it
+         * that a BlackBag is empty and needs refilling
+         */
         public void fireFoundEmptyBagEvent() {
-            //System.out.println("Bag is empty");
-            //PebbleGame.this.gameOver = true;
-            PlayerEvent event = new PlayerEvent(this);
-            this.playerListener.onPlayerFoundEmptyBagEvent(event);
             
+            
+            PlayerEvent event = new PlayerEvent(this);
+            this.playerListener.onPlayerFoundEmptyBagEvent(event);  
         }
 
+        /**
+         * Method that fires an event once the Player has drawn to tell
+         * the PebbleGame that its turn has been used.
+         */
         public void fireHasDrawnEvent() {
-            
-            //System.out.println(this.name + " has drawn : " + PebbleGame.this.turn);
             PlayerEvent event = new PlayerEvent(this);
             this.playerListener.onPlayerHasDrawnEvent(event);
         }
-
-
     }
-
-
-    
 }
