@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,37 +14,28 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author jb901
+ * @author 660050748, 660049985
  */
 public class PebbleTest {
-    private MockPebble pebble;
+    
     
     public PebbleTest() {
     }
     
     @BeforeClass
-    public static void setUpClass() {
-        
+    public static void beforeClass() {
+        System.out.println("Testing class Pebble");
     }
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    public void setUp() {
-        this.pebble = new MockPebble();
-    }
-    
-    public void tearDown() {
-        this.pebble = null;
-    }
     /**
      * Test of getValue method, of class Pebble.
+     * Asssert that the positive value passed into the pebble
+     * is equal to the one returned by getValue method
      */
     @Test
     public void testGetValuePositive() {
         int value = 25;
-        System.out.println("Testing getValue with value " + value);
+        
         
         try {
             assertEquals(value, new Pebble(25).getValue());
@@ -54,10 +45,15 @@ public class PebbleTest {
         
     }
     
+    /**
+     * Test of getValue method, of class Pebble.
+     * Passes in an illegal value and expects to catch
+     * IllegalPebbleValueException.
+     */
     @Test
     public void testGetValueZero() {
         int value = 0;
-        System.out.println("Testing getValue with value " + value);
+        
         
         try {
             assertEquals(value, new Pebble(value).getValue());
@@ -67,10 +63,15 @@ public class PebbleTest {
         }
     }
     
+    /**
+     * Test of getValue method, of class Pebble.
+     * Passes in a negative value and expects to catch
+     * IllegalPebbleValueException.
+     */
     @Test
     public void testGetValueNegative(){
         int value = -25;
-       System.out.println("Testing getValue with value " + value);
+       
         
         try {
             assertEquals(value, new Pebble(value).getValue());
@@ -80,15 +81,38 @@ public class PebbleTest {
         } 
     }
     
+    /**
+     * Test of getValue method, of class Pebble.
+     * Passes in the maximum allowed value for an integer.
+     */
     @Test
     public void testGetValueBoundaryPositive(){
         int value = Integer.MAX_VALUE;
-        System.out.println("Testing getValue with value " + value);
+        
         
         try {
             assertEquals(value, new Pebble(value).getValue());
         } catch (IllegalPebbleValueException ex) {
             fail("Should not have thrown an exception");
+        } 
+    }
+    
+    /**
+     * Test of getValue method, of class Pebble.
+     * Passes in the minimum allowed value for an integer.
+     * 
+     */
+    @Test
+    public void testGetValueBoundaryNegative(){
+        int value = Integer.MIN_VALUE;
+        
+        
+        
+        try {
+            assertEquals(value, new Pebble(value).getValue());
+            fail("Should have thrown an exception");
+        } catch (IllegalPebbleValueException ex) {
+            assertTrue(true);
         } 
     }
     

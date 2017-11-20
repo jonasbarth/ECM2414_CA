@@ -3,20 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ECM2414_CA;
+package ecm1414_ca;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
- *
+ * Test class to test the ReadFile class
  * @author 660050748, 6600499985
  */
 public class ReadFileTest {
@@ -26,21 +28,30 @@ public class ReadFileTest {
     public ReadFileTest() {
     }
     
+    @BeforeClass
+    public static void beforeClass() {
+        System.out.println("Testing class ReadFile");
+    }
     
-    
+    @Before
     public void setUp() throws IOException {
-        //create a text and csv file
+        //create text for txt and csv file
         this.messageTxt = "This is a txt file";
         this.messageCsv = "This is a csv file";
         
+        //create new file object for txt and csv
         this.txt = new File("txt.txt");
         this.csv = new File("csv.csv");
         
+        //create the actual file
         this.txt.createNewFile();
         this.csv.createNewFile();
         
+        
         FileWriter writerTxt = new FileWriter(this.txt);
         FileWriter writerCsv = new FileWriter(this.csv);
+        
+        //write the message into each file
         writerTxt.write(messageTxt);
         writerCsv.write(messageCsv);
         
@@ -48,7 +59,7 @@ public class ReadFileTest {
         writerCsv.close();
     }
     
-    
+    @After
     public void tearDown() {
         this.txt.delete();
         this.csv.delete();
@@ -60,14 +71,11 @@ public class ReadFileTest {
 
     /**
      * Test of openFile method, of class ReadFile.
+     * Opens a txt file and asserts the result from openFile
+     * method is equal to the String written into the file.
      */
     @Test
     public void testOpenFileTxt() {
-        try {
-            setUp();
-        } catch (IOException ex) {
-            fail("Setup could not be performed due to IOException");
-        }
         
         ReadFile rf = new ReadFile(this.txt.getPath());
         try {
@@ -76,16 +84,17 @@ public class ReadFileTest {
         } catch (IOException ex) {
             fail(ex.getMessage());
         }
-        tearDown();
+        
     }
     
+    /**
+     * Test of openFile method, of class ReadFile.
+     * Opens a csv file and asserts the result from openFile
+     * method is equal to the String written into the file.
+     */
     @Test
     public void testOpenFileCsv() {
-        try {
-            setUp();
-        } catch (IOException ex) {
-            fail("Setup could not be performed due to IOException");
-        }
+        
         
         ReadFile rf = new ReadFile(this.csv.getPath());
         try {
@@ -94,7 +103,7 @@ public class ReadFileTest {
         } catch (IOException ex) {
             fail(ex.getMessage());
         }
-        tearDown();
+       
     }
 
     
